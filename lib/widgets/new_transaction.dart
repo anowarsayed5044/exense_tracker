@@ -24,12 +24,13 @@ class NewTransaction extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: "enter Amount",
             ),
+            keyboardType: TextInputType.number,
             controller: amountController,
           ),
           FlatButton(
             onPressed: () {
-              print("called");
               addTx(titleController.text, double.parse(amountController.text));
+              Navigator.of(context).pop();
             },
             textColor: Colors.purple,
             child: const Text("Add Transaction"),
