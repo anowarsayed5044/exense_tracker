@@ -40,10 +40,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 't1', title: 'New Show', amount: 69.99, date: DateTime.now()),
-    // Transaction(
-    //     id: 't2', title: 'Weekly Grocery', amount: 16.49, date: DateTime.now()),
+    Transaction(
+        id: 't1', title: 'New Show', amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: 't2', title: 'Weekly Grocery', amount: 16.49, date: DateTime.now()),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -53,14 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addTransaction(String txTitle, double txAmount) {
+  void _addTransaction(String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now());
+        date: chosenDate
+    );
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransactions(String id){
+    setState((){
+      _userTransactions.removeWhere((element) => element.id == id);
     });
   }
 
@@ -87,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           Chart(recentTransactions: _recentTransactions),
-          TransactionList(userTransactions: _userTransactions),
+          TransactionList(userTransactions: _userTransactions, deleteTx: _deleteTransactions,),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
