@@ -29,45 +29,55 @@ class _NewTransactionState extends State<NewTransaction> {
       });
     }
 
-    return Card(
-      elevation: 5,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextField(
-            decoration: const InputDecoration(
-              labelText: "enter Title",
-            ),
-            controller: _titleController,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10
           ),
-          TextField(
-            decoration: const InputDecoration(
-              labelText: "enter Amount",
-            ),
-            keyboardType: TextInputType.number,
-            controller: _amountController,
-          ),
-          Container(
-            child: Row(children: [
-              Expanded(
-                child: Text('Selected Date: ${DateFormat.yMd().format(_selectedDate)}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "enter Title",
+                ),
+                controller: _titleController,
               ),
-              FlatButton(
-                onPressed: _presentDatePicker,
-                textColor: Theme.of(context).primaryColor,
-                child: const Text("Chose Date", style: TextStyle(fontWeight: FontWeight.bold),),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "enter Amount",
+                ),
+                keyboardType: TextInputType.number,
+                controller: _amountController,
               ),
-            ],),
+              Container(
+                child: Row(children: [
+                  Expanded(
+                    child: Text('Selected Date: ${DateFormat.yMd().format(_selectedDate)}'),
+                  ),
+                  FlatButton(
+                    onPressed: _presentDatePicker,
+                    textColor: Theme.of(context).primaryColor,
+                    child: const Text("Chose Date", style: TextStyle(fontWeight: FontWeight.bold),),
+                  ),
+                ],),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  widget.addTx(_titleController.text, double.parse(_amountController.text), _selectedDate);
+                  Navigator.of(context).pop();
+                },
+                color: Colors.purple,
+                child: const Text("Add Transaction", style: TextStyle(color: Colors.white70),),
+              ),
+            ],
           ),
-          RaisedButton(
-            onPressed: () {
-              widget.addTx(_titleController.text, double.parse(_amountController.text), _selectedDate);
-              Navigator.of(context).pop();
-            },
-            color: Colors.purple,
-            child: const Text("Add Transaction", style: TextStyle(color: Colors.white70),),
-          ),
-        ],
+        ),
       ),
     );
   }

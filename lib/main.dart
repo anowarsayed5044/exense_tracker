@@ -2,10 +2,13 @@ import 'package:exense_tracker/widgets/chart.dart';
 import 'package:exense_tracker/widgets/new_transaction.dart';
 import 'package:exense_tracker/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models/transaction.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -39,6 +42,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
   final List<Transaction> _userTransactions = [
     Transaction(
         id: 't1', title: 'New Show', amount: 69.99, date: DateTime.now()),
@@ -93,7 +97,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
-          Chart(recentTransactions: _recentTransactions),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Text("Show Chart"),
+            Switch(
+                value: _showChart,
+                onChanged: (val){
+                  setState(() {
+                    _showChart = val;
+                  });
+                }
+            ),
+          ],),
+          _showChart ? Container(
+            height: (MediaQuery.of(context).size.height) * 0.22,
+              child: Chart(recentTransactions: _recentTransactions),
+          ) : Container(),
           TransactionList(userTransactions: _userTransactions, deleteTx: _deleteTransactions,),
         ],
       ),

@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 439,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: userTransactions.isEmpty ? Column(
         children: [
           const Text("No Transaction Added Yet!"),
@@ -31,6 +31,10 @@ class TransactionList extends StatelessWidget {
           return Card(
             child: Row(
               children: [
+                IconButton(
+                  onPressed: () => deleteTx(userTransactions[index].id),
+                  icon: const Icon(Icons.delete, color: Colors.red,),
+                ),
                 Container(
                   margin: const EdgeInsets.symmetric(
                       vertical: 10, horizontal: 15),
@@ -64,13 +68,6 @@ class TransactionList extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 110),
-                  child: IconButton(
-                    onPressed: () => deleteTx(userTransactions[index].id),
-                    icon: const Icon(Icons.delete, color: Colors.red,),
-                  ),
-                )
               ],
             ),
           );
